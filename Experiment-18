@@ -1,0 +1,48 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+int main() {
+    int n, head, i, j, temp;
+    int req[20], left[20], right[20], lc=0, rc=0, total = 0;
+
+    printf("Enter number of requests: ");
+    scanf("%d", &n);
+
+    printf("Enter requests: ");
+    for(i=0;i<n;i++) scanf("%d", &req[i]);
+
+    printf("Enter head position: ");
+    scanf("%d", &head);
+
+    for(i=0;i<n;i++){
+        if(req[i] < head) left[lc++] = req[i];
+        else right[rc++] = req[i];
+    }
+
+    // Sort both sides
+    for(i=0;i<lc;i++)
+        for(j=i+1;j<lc;j++)
+            if(left[i] < left[j]) temp=left[i], left[i]=left[j], left[j]=temp;
+
+    for(i=0;i<rc;i++)
+        for(j=i+1;j<rc;j++)
+            if(right[i] > right[j]) temp=right[i], right[i]=right[j], right[j]=temp;
+
+    printf("\nSCAN Order: %d ", head);
+
+    // Move left
+    for(i=0;i<lc;i++){
+        total += abs(head - left[i]);
+        head = left[i];
+        printf("-> %d ", head);
+    }
+
+    // Move right
+    for(i=0;i<rc;i++){
+        total += abs(head - right[i]);
+        head = right[i];
+        printf("-> %d ", head);
+    }
+
+    printf("\nTotal Head Movement = %d\n", total);
+}
