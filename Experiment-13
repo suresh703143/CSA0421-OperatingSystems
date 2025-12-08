@@ -1,0 +1,33 @@
+#include <stdio.h>
+
+int main() {
+    int f, n, i, j, k, pos, hit, pf = 0, cnt = 0;
+    int frame[10], ref[30], used[10];
+
+    scanf("%d", &f);
+    for(i=0;i<f;i++) frame[i] = -1;
+
+    scanf("%d", &n);
+    for(i=0;i<n;i++) scanf("%d", &ref[i]);
+
+    for(i=0;i<n;i++){
+        hit = 0;
+
+        for(j=0;j<f;j++)
+            if(frame[j] == ref[i]) { hit = 1; used[j] = ++cnt; }
+
+        if(!hit){
+            pos = 0;
+            for(j=1;j<f;j++)
+                if(used[j] < used[pos]) pos = j;
+            frame[pos] = ref[i];
+            used[pos] = ++cnt;
+            pf++;
+        }
+
+        for(j=0;j<f;j++) printf("%d ", frame[j]);
+        printf("\n");
+    }
+
+    printf("Page Faults = %d", pf);
+}
