@@ -1,0 +1,40 @@
+#include <stdio.h>
+#include <pthread.h>
+#include <unistd.h>
+
+pthread_mutex_t chop[5];
+
+void* philosopher(void* num) {
+    int id = *(int*)num;
+    int left = id;
+    int right = (id + 1) % 5;
+
+    pthread_mutex_lock(&chop[left]);
+    pthread_mutex_lock(&chop[right]);
+
+    printf("Philosopher %d is eating\n", id);
+    sleep(1);
+
+    pthread_mutex_unlock(&chop[right]);
+    pthread_mutex_unlock(&chop[left]);
+
+    printf("Philosopher %d finished eating\n", id);
+}
+
+int main() {
+    pthread_t p[5];
+    int i, id[5];
+
+    for(i=0;i<5;i++)
+        pthread_mutex_init(&chop[i], NULL);
+
+    for(i=0;i<5;i++) {
+        id[i] = i;
+        pthread_create(&p[i], NULL, philosopher, &id[i]);
+    }
+
+    for(i=0;i<5;i++)
+        pthread_join(p[i], NULL);
+
+    return 0;
+}
