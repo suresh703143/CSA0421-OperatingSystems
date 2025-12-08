@@ -1,0 +1,33 @@
+#include <stdio.h>
+#include <string.h>
+
+struct U { char name[20], files[10][20]; int fcount; } u[10];
+int uc = 0;
+
+int find(char *n) { for(int i=0;i<uc;i++) if(!strcmp(u[i].name,n)) return i; return -1; }
+
+int main() {
+    int ch, idx; char uname[20], fname[20];
+    while(1){
+        printf("\n1.User 2.File 3.Show 4.Exit: "); scanf("%d",&ch);
+        if(ch==1){
+            printf("Username: "); scanf("%s", u[uc].name);
+            u[uc].fcount = 0; uc++; 
+        }
+        else if(ch==2){
+            printf("Username: "); scanf("%s", uname);
+            printf("Filename: "); scanf("%s", fname);
+            idx = find(uname);
+            if(idx!=-1) strcpy(u[idx].files[u[idx].fcount++], fname);
+            else printf("User not found\n");
+        }
+        else if(ch==3){
+            for(int i=0;i<uc;i++){
+                printf("\nUser: %s Files:", u[i].name);
+                for(int j=0;j<u[i].fcount;j++) printf(" %s", u[i].files[j]);
+            }
+            printf("\n");
+        }
+        else break;
+    }
+}
