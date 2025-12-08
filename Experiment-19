@@ -1,0 +1,48 @@
+#include <stdio.h>
+#include <string.h>
+
+struct File { char name[20]; } files[20];
+int count = 0;
+
+int main() {
+    int ch; 
+    char fname[20];
+
+    while(1){
+        printf("\n1.Create 2.Delete 3.Search 4.Display 5.Exit: ");
+        scanf("%d", &ch);
+
+        if(ch == 1){  
+            printf("Enter file name: ");
+            scanf("%s", files[count].name);
+            count++;
+        }
+        else if(ch == 2){
+            printf("Enter file to delete: ");
+            scanf("%s", fname);
+            for(int i=0;i<count;i++){
+                if(!strcmp(fname, files[i].name)){
+                    for(int j=i;j<count-1;j++)
+                        strcpy(files[j].name, files[j+1].name);
+                    count--;
+                    printf("Deleted\n");
+                    break;
+                }
+            }
+        }
+        else if(ch == 3){
+            printf("Search file: ");
+            scanf("%s", fname);
+            int found = 0;
+            for(int i=0;i<count;i++)
+                if(!strcmp(fname, files[i].name)) found = 1;
+            printf(found ? "Found\n" : "Not Found\n");
+        }
+        else if(ch == 4){
+            printf("Files: ");
+            for(int i=0;i<count;i++) printf("%s ", files[i].name);
+            printf("\n");
+        }
+        else break;
+    }
+}
