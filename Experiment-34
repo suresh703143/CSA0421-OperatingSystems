@@ -1,0 +1,45 @@
+#include <stdio.h>
+#include <string.h>
+
+#define MAX_RECORDS 100
+#define MAX_LEN 50
+
+int main() {
+    char file[MAX_RECORDS][MAX_LEN];
+    int n;
+    char record[MAX_LEN];
+
+    printf("Enter number of records to store: ");
+    scanf("%d", &n);
+
+    // Input records sequentially
+    for(int i = 0; i < n; i++) {
+        printf("Enter record %d: ", i+1);
+        getchar(); // clear input buffer
+        fgets(file[i], MAX_LEN, stdin);
+        file[i][strcspn(file[i], "\n")] = '\0'; // remove newline
+    }
+
+    printf("\nRecords stored sequentially.\n");
+
+    // Search a record sequentially
+    char search[MAX_LEN];
+    printf("\nEnter record to search: ");
+    fgets(search, MAX_LEN, stdin);
+    search[strcspn(search, "\n")] = '\0';
+
+    printf("\nAccessing records sequentially...\n");
+    int found = 0;
+    for(int i = 0; i < n; i++) {
+        printf("Reading record %d: %s\n", i+1, file[i]);
+        if(strcmp(file[i], search) == 0) {
+            printf("Record found at position %d.\n", i+1);
+            found = 1;
+            break;
+        }
+    }
+
+    if(!found) printf("Record not found.\n");
+
+    return 0;
+}
