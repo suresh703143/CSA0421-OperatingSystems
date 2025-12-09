@@ -1,0 +1,69 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+// Structure for a disk block
+struct Block {
+    int blockNumber;
+    struct Block *next;
+};
+
+// Function to create a new block
+struct Block* createBlock(int num) {
+    struct Block *newBlock = (struct Block*) malloc(sizeof(struct Block));
+    newBlock->blockNumber = num;
+    newBlock->next = NULL;
+    return newBlock;
+}
+
+int main() {
+    int n;
+    printf("Enter number of blocks in the file: ");
+    scanf("%d", &n);
+
+    struct Block *head = NULL, *tail = NULL;
+    int blockNum;
+
+    // Input blocks and create linked list
+    for(int i = 0; i < n; i++) {
+        printf("Enter block number %d: ", i+1);
+        scanf("%d", &blockNum);
+
+        struct Block *newBlock = createBlock(blockNum);
+
+        if(head == NULL) {
+            head = newBlock;
+            tail = newBlock;
+        } else {
+            tail->next = newBlock;
+            tail = newBlock;
+        }
+    }
+
+    // Display linked allocation
+    printf("\nFile blocks (Linked Allocation):\n");
+    struct Block *temp = head;
+    while(temp != NULL) {
+        printf("%d -> ", temp->blockNumber);
+        temp = temp->next;
+    }
+    printf("NULL\n");
+
+    // Access blocks sequentially
+    temp = head;
+    int pos = 1;
+    while(temp != NULL) {
+        printf("Accessing block %d: Physical Block Number = %d\n", pos, temp->blockNumber);
+        temp = temp->next;
+        pos++;
+    }
+
+    // Free memory
+    temp = head;
+    while(temp != NULL) {
+        struct Block *t = temp;
+        temp = temp->next;
+        free(t);
+    }
+
+    return 0;
+}
