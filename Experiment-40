@@ -1,0 +1,32 @@
+#include <stdio.h>
+#include <sys/stat.h>
+
+int main() {
+    char filename[100];
+    printf("Enter file name: ");
+    scanf("%s", filename);
+
+    struct stat fileStat;
+    if(stat(filename, &fileStat) < 0) {
+        perror("stat");
+        return 1;
+    }
+
+    printf("File: %s\n", filename);
+    printf("Owner permissions: %c%c%c\n",
+           (fileStat.st_mode & S_IRUSR) ? 'r' : '-',
+           (fileStat.st_mode & S_IWUSR) ? 'w' : '-',
+           (fileStat.st_mode & S_IXUSR) ? 'x' : '-');
+
+    printf("Group permissions: %c%c%c\n",
+           (fileStat.st_mode & S_IRGRP) ? 'r' : '-',
+           (fileStat.st_mode & S_IWGRP) ? 'w' : '-',
+           (fileStat.st_mode & S_IXGRP) ? 'x' : '-');
+
+    printf("Others permissions: %c%c%c\n",
+           (fileStat.st_mode & S_IROTH) ? 'r' : '-',
+           (fileStat.st_mode & S_IWOTH) ? 'w' : '-',
+           (fileStat.st_mode & S_IXOTH) ? 'x' : '-');
+
+    return 0;
+}
