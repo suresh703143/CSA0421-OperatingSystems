@@ -1,0 +1,35 @@
+#include <stdio.h>
+
+#define MAX_BLOCKS 100
+
+int main() {
+    int n; // number of blocks for the file
+    printf("Enter number of blocks in the file: ");
+    scanf("%d", &n);
+
+    int indexBlock[MAX_BLOCKS];
+    printf("Enter block numbers for the file:\n");
+    for(int i = 0; i < n; i++) {
+        printf("Block %d: ", i+1);
+        scanf("%d", &indexBlock[i]);
+    }
+
+    printf("\nIndexed Allocation Table:\n");
+    printf("Index Block -> Data Block\n");
+    for(int i = 0; i < n; i++)
+        printf("Index[%d] -> Block %d\n", i, indexBlock[i]);
+
+    // Access any block
+    int blockNo;
+    printf("\nEnter block number to access (0 to %d): ", n-1);
+    scanf("%d", &blockNo);
+
+    if(blockNo >= 0 && blockNo < n) {
+        printf("Accessing block %d of file: Physical Block Number = %d\n",
+               blockNo, indexBlock[blockNo]);
+    } else {
+        printf("Invalid block number.\n");
+    }
+
+    return 0;
+}
